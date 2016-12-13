@@ -6,6 +6,6 @@
     "express": "^4.14.0",
     "socket.io": "^1.7.2",
     "eslint": "^2.12.0",
-    "eslint-config-airhelp": "git+https://b728d08bc77609d2728b838382fcc15d4d7559aa:x-oauth-basic@github.com/AirHelp/eslint-config-airhelp.git#v1.3.3"
+    "eslint-config-airhelp": "https://github.com/AirHelp/eslint-config-airhelp.git#v1.3.3"
   }
 }
