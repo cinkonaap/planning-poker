@@ -2,31 +2,43 @@ import Ember from 'ember';
 
 const { Component } = Ember;
 
+const cards = [
+  {
+    action: 0.5,
+  },
+  {
+    action: 1,
+  },
+  {
+    action: 3,
+  },
+  {
+    action: 5,
+  },
+  {
+    action: 8,
+  },
+  {
+    action: 13,
+  },
+  {
+    action: 'coffee',
+  },
+  {
+    action: '?',
+  },
+];
+
 export default Component.extend({
-  cards: [
-    {
-      points: 0,
+  cards: cards,
+
+  cardSelected: null,
+
+  actions: {
+    cardSelect(value) {
+      this.set('cardSelected', value);
+
+      this.get('onCardSelected')(value);
     },
-    {
-      points: 1,
-    },
-    {
-      points: 3,
-    },
-    {
-      points: 5,
-    },
-    {
-      points: 8,
-    },
-    {
-      points: 13,
-    },
-    {
-      points: 'coffee',
-    },
-    {
-      points: '?',
-    },
-  ],
+  },
 });

@@ -3,6 +3,9 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   users: [],
   currentUser: null,
+  round: {
+
+  },
 
   createUser(name) {
     if (this._hasUserWithName(name)) {
