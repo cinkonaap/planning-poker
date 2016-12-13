@@ -27,13 +27,16 @@ io.on('connection', function (socket) {
     callback(users);
   });
 
-  socket.on('disconnect', function() {
+  function disconnect() {
     if (socketUser) {
       users.splice(users.indexOf(socketUser), 1);
       io.emit('users-disconnect', socketUser);
       socketUser = null;
     }
-  });
+  }
+
+  socket.on('disconnect', disconnect);
+  socket.on('manual-disconnect', disconnect);
 
   socket.on('users-card-select', function(value) {
     if (!round.bets.hasOwnProperty(socketUser.id)) {
