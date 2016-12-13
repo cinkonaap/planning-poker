@@ -1,5 +1,24 @@
 @import "pod-styles";
 
+.logout-btn {
+  margin-bottom: 10px;
+  width: 100px;
+  align-self: flex-end;
+}
+
+.column-right {
+  display: flex;
+  flex-direction: column;
+}
+
 .index-page {
   display: flex;
+  margin: 10px;
+  // flex-direction: column;
+
+  .user-list {
+    background: red;
+    width: 200px;
+    text-align: center;
+  }
 }
