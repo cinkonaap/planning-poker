@@ -1,0 +1,18 @@
+img {
+  padding: 10px;
+  width: 42px;
+  height: 42px;
+  background: rgba(220, 220, 220, 0.31);
+  border: 1px dashed #cccccc;
+  margin-right: 15px;
+}
+
+.name {
+  max-width: 300px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.vote-state {
+}

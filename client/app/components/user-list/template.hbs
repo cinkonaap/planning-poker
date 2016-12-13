@@ -1,6 +1,5 @@
 {{#each users as |user|}}
-  <div class="user">
-    <div>{{user.name}}</div>
-    <div>+</div>
-  </div>
+  <li>
+    {{user-list/user-item user=user}}
+  </li>
 {{/each}}
