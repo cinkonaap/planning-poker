@@ -1,6 +1,6 @@
-{{#each users as |user|}}
+{{#each usersRound as |userRound|}}
   <div class="user">
-    <div>{{user.name}}</div>
-    <div>+</div>
+    <div>{{userRound.name}}</div>
+    <div>{{#if userRound.voted}}voted{{/if}}</div>
   </div>
 {{/each}}

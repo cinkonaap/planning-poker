@@ -1,10 +1,12 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({
+const { set, Service } = Ember;
+
+export default Service.extend({
   users: [],
   currentUser: null,
   round: {
-
+    bets: {},
   },
 
   createUser(name) {
@@ -30,6 +32,13 @@ export default Ember.Service.extend({
 
   setCurrentUser(user) {
     this.set('currentUser', user);
+  },
+
+  cardSelected(name) {
+    const bets = this.get('round.bets');
+    // if(!bets[name]) {
+    set(bets, name, { voted: true });
+    // }
   },
 
   _hasUserWithName(name) {

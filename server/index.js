@@ -13,10 +13,20 @@ app.get('/', function (req, res) {
   res.send('');
 });
 
+function getUnrevealedBets(bets) {
+  return Object.keys(bets).reduce((previous, current) => {
+    previous[current] = {
+      bet: !!bets[current].bet,
+    };
+    return previous;
+  }, {});
+}
+
 io.on('connection', function (socket) {
   let socketUser = null;
 
   socket.on('users-new', function (data) {
+    console.log('users new')
     socketUser = { name: data, id: socket.id };
     users.push(socketUser);
 
@@ -24,7 +34,13 @@ io.on('connection', function (socket) {
   });
 
   socket.on('users-get', function(callback) {
-    callback(users);
+    callback({
+      users,
+      round: {
+        name: round.name,
+        bets: getUnrevealedBets(round.bets),
+      },
+    });
   });
 
   function disconnect() {
@@ -39,8 +55,8 @@ io.on('connection', function (socket) {
   socket.on('manual-disconnect', disconnect);
 
   socket.on('users-card-select', function(value) {
-    round.bets[socketUser.id] = round.bets[socketUser.id] || {};
-    round.bets[socketUser.id].bet = value;
+    round.bets[socketUser.name] = round.bets[socketUser.name] || {};
+    round.bets[socketUser.name].bet = value;
 
     socket.broadcast.emit('users-card-select', socketUser.name);
   });

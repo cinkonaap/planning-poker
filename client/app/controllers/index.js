@@ -1,9 +1,12 @@
 import Ember from 'ember';
 
-const { Controller, inject: { service } } = Ember;
+const { Controller, computed, inject: { service } } = Ember;
 
 export default Controller.extend({
   state: service(),
+  hash: computed.alias('model'),
+  users: computed.alias('hash.users'),
+  round: computed.alias('hash.round'),
   init() {
     this._super(...arguments);
     const socket = this.get('socket');
@@ -11,6 +14,7 @@ export default Controller.extend({
   },
   actions: {
     sendCardChosen(points) {
+      console.log('sendndndnd', points);
       this.get('socket').emit('users-card-select', points);
     },
 
@@ -21,6 +25,6 @@ export default Controller.extend({
     },
   },
   _onUsersCardSelect(name) {
-    
-  }
+    this.get('state').cardSelected(name);
+  },
 });
