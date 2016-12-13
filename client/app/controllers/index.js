@@ -8,9 +8,7 @@ export default Controller.extend({
   users: computed.alias('hash.users'),
   round: computed.alias('hash.round'),
 
-  onRoundChange: observer('round.bets', function() {
-    console.log('round', this.get('round'));
-  }),
+  roundbets: computed.alias('hash.roundbets'),
 
   init() {
     this._super(...arguments);
