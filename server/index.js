@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
     round.bets[socketUser.name] = round.bets[socketUser.name] || {};
     round.bets[socketUser.name].bet = value;
 
-    socket.broadcast.emit('users-card-select', socketUser.name);
+    io.emit('users-card-select', socketUser.name);
   });
 
   socket.on('round-name-change', function(name) {

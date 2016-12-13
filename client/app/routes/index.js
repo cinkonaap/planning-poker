@@ -14,7 +14,8 @@ export default Route.extend({
         state.set('round', round);
         resolve({
           users: state.users,
-          round,
+          round: state.round,
+          roundbets: state.roundbets,
         });
       });
     });

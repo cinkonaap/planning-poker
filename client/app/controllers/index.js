@@ -7,6 +7,7 @@ export default Controller.extend({
   hash: computed.alias('model'),
   users: computed.alias('hash.users'),
   round: computed.alias('hash.round'),
+  roundbets: computed.alias('hash.roundbets'),
   init() {
     this._super(...arguments);
     const socket = this.get('socket');

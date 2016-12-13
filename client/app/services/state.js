@@ -9,6 +9,8 @@ export default Service.extend({
     bets: {},
   },
 
+  roundbets: [],
+
   createUser(name) {
     if (this._hasUserWithName(name)) {
       return false;
@@ -35,10 +37,11 @@ export default Service.extend({
   },
 
   cardSelected(name) {
-    const bets = this.get('round.bets');
-    // if(!bets[name]) {
-    set(bets, name, { voted: true });
-    // }
+    const round = this.get('round');
+    set(round, `bets.${name}`, { bet: true });
+    this.get('roundbets').pushObject(name);
+    console.log('cardSelected in state', round);
+    this.set('round', round);
   },
 
   _hasUserWithName(name) {
