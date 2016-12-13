@@ -1,7 +1,7 @@
-<div>
-{{#each model as |user|}}
-  <div>{{user.name}}</div>
-{{/each}}
+{{#bs-button type="primary" icon="glyphicon glyphicon-remove"}}
+  Logout
+{{/bs-button}}
+<div class="index-page">
+  {{user-list users=model}}
+  {{card-list cardChosen=(action 'sendCardChosen')}}
 </div>
-
-{{card-list cardChosen=(action 'sendCardChosen')}}

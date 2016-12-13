@@ -6,7 +6,7 @@ export default Controller.extend({
   state: service(),
   actions: {
     sendCardChosen(points) {
-      this.get('socket').emit('TODO');
-    }
-  }
+      this.get('socket').emit('users-card-select', points);
+    },
+  },
 });
