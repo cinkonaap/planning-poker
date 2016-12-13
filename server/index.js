@@ -3,6 +3,10 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 const users = [];
+const round = {
+  name: '',
+  bets: {},
+};
 
 server.listen(3000);
 app.get('/', function (req, res) {
@@ -10,15 +14,13 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-  console.log('user connected', socket.id);
   let socketUser = null;
 
-  socket.on('usersnew', function (data) {
-    //console.log('newuser', data);
+  socket.on('users-new', function (data) {
     socketUser = { name: data, id: socket.id };
     users.push(socketUser);
-    console.log('new user', users.length);
-    socket.broadcast.emit('usersnew', socketUser);
+
+    socket.broadcast.emit('users-new', socketUser);
   });
 
   socket.on('users-get', function(callback) {
@@ -27,9 +29,38 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function() {
     if (socketUser) {
+      console.log('disconnecting user', socketUser);
       users.splice(users.indexOf(socketUser), 1);
-      socket.broadcast.emit('users-disconnect', socketUser);
+      console.log('emit disconnect');
+      io.emit('users-disconnect', socketUser);
       socketUser = null;
     }
+  });
+
+  socket.on('users-card-select', function(value) {
+    if (!round.bets.hasOwnProperty(socketUser.id)) {
+      round.bets[socketUser.id] = {
+        bet: value,
+      };
+    } else {
+      round.bets[socketUser.id].bet = value;
+    }
+  });
+
+  socket.on('round-name-change', function(name) {
+    round.name = name;
+
+    io.emit('round-name-change', name);
+  });
+
+  socket.on('round-new', function() {
+    round.name = '';
+    round.bets = {};
+
+    io.emit('round-new', round);
+  });
+
+  socket.on('round-reveal', function() {
+    io.emit('round-reveal', round);
   });
 });

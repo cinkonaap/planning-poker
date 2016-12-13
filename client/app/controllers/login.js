@@ -14,7 +14,7 @@ export default Controller.extend({
     submitForm(name) {
       const socket = this.get('socket');
       console.log('emiting', name);
-      socket.emit('usersnew', name);
+      socket.emit('users-new', name);
       const user = this.get('state').createUser(name);
       this.get('state').setCurrentUser(user);
       this.transitionToRoute('index');
