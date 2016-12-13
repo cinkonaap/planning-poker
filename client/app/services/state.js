@@ -4,10 +4,6 @@ export default Ember.Service.extend({
   users: [],
   currentUser: null,
 
-  _hasUserWithName(name) {
-    return this.get('users').any(user => user.name === name);
-  },
-
   createUser(name) {
     if (this._hasUserWithName(name)) {
       return false;
@@ -18,8 +14,22 @@ export default Ember.Service.extend({
     }
   },
 
+  removeUser(name) {
+    const users = this.get('users');
+
+    for (let i = 0 ; i < users.length ; i++) {
+      if (users[i].name === name) {
+        users.removeAt(i);
+        break;
+      }
+    }
+  },
+
   setCurrentUser(user) {
-    // TODO maybe we will need a set here
     this.set('currentUser', user);
+  },
+
+  _hasUserWithName(name) {
+    return this.get('users').any(user => user.name === name);
   },
 });

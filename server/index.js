@@ -13,12 +13,11 @@ io.on('connection', function (socket) {
   console.log('user connected', socket.id);
   let socketUser = null;
 
-  socket.on('usersnew', function (data) {
-    //console.log('newuser', data);
+  socket.on('users-new', function (data) {
     socketUser = { name: data, id: socket.id };
     users.push(socketUser);
-    console.log('new user', users.length);
-    socket.broadcast.emit('usersnew', socketUser);
+
+    socket.broadcast.emit('users-new', socketUser);
   });
 
   socket.on('users-get', function(callback) {
@@ -27,8 +26,10 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function() {
     if (socketUser) {
+      console.log('disconnecting user', socketUser);
       users.splice(users.indexOf(socketUser), 1);
-      socket.broadcast.emit('users-disconnect', socketUser);
+      console.log('emit disconnect');
+      io.emit('users-disconnect', socketUser);
       socketUser = null;
     }
   });
