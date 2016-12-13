@@ -1,0 +1,14 @@
+$font-permanent-marker: 'Permanent Marker', cursive;
+
+@mixin font($font-size, $font-weight:null, $line-height:null, $font-family:null) {
+  font-size: $font-size;
+  @if $font-weight != null {
+    font-weight: $font-weight;
+  }
+  @if $font-family != null {
+    font-family: $font-family;
+  }
+  @if $line-height != null {
+    line-height: $line-height;
+  }
+}

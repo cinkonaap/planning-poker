@@ -1,4 +1,5 @@
-@import "pod-styles";
+@import 'pod-styles';
+@import './mixins';
 
 .logout-btn {
   margin-bottom: 10px;

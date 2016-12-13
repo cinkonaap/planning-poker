@@ -1,5 +1,5 @@
 <div class="index-page">
-  {{card-list cardChosen=(action 'sendCardChosen')}}
+  {{card-list onCardSelected=(action 'sendCardChosen')}}
   <div class="column-right">
     {{#bs-button class="logout-btn" click=(action 'logout') type="primary" icon="glyphicon glyphicon-remove"}}
       Logout

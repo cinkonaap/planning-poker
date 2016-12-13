@@ -13,6 +13,7 @@ export default Controller.extend({
     sendCardChosen(points) {
       this.get('socket').emit('users-card-select', points);
     },
+
     logout() {
       localStorage.removeItem('userName');
       this.get('socket').emit('manual-disconnect');
