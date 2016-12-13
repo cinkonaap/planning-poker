@@ -29,9 +29,7 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function() {
     if (socketUser) {
-      console.log('disconnecting user', socketUser);
       users.splice(users.indexOf(socketUser), 1);
-      console.log('emit disconnect');
       io.emit('users-disconnect', socketUser);
       socketUser = null;
     }
@@ -45,6 +43,11 @@ io.on('connection', function (socket) {
     } else {
       round.bets[socketUser.id].bet = value;
     }
+
+    socket.broadcast.emit('users-card-select', {
+      user: socketUser.name,
+      value: value,
+    });
   });
 
   socket.on('round-name-change', function(name) {
