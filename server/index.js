@@ -39,18 +39,10 @@ io.on('connection', function (socket) {
   socket.on('manual-disconnect', disconnect);
 
   socket.on('users-card-select', function(value) {
-    if (!round.bets.hasOwnProperty(socketUser.id)) {
-      round.bets[socketUser.id] = {
-        bet: value,
-      };
-    } else {
-      round.bets[socketUser.id].bet = value;
-    }
+    round.bets[socketUser.id] = round.bets[socketUser.id] || {};
+    round.bets[socketUser.id].bet = value;
 
-    socket.broadcast.emit('users-card-select', {
-      user: socketUser.name,
-      value: value,
-    });
+    socket.broadcast.emit('users-card-select', socketUser.name);
   });
 
   socket.on('round-name-change', function(name) {
