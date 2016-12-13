@@ -1,0 +1,6 @@
+<div>cards</div>
+<div class="cards">
+{{#each cards as |card|}}
+  <div class="card" {{action cardChosen card.points}}>{{card.points}}</div>
+{{/each}}
+</div>
