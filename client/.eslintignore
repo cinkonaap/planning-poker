@@ -1,0 +1,5 @@
+tmp/*
+dist/*
+public/*
+node_modules/*
+bower_components/*
