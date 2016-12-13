@@ -1,5 +1,11 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
-  voteStateComponent: 'user-list/vote-state/state-voted',
+const { Component, computed } = Ember;
+
+export default Component.extend({
+  voteStateComponent: computed('userRound.voted', function() {
+    const voted = this.get('userRound.voted');
+
+    return voted ? 'user-list/vote-state/state-voted' : null;
+  }),
 });

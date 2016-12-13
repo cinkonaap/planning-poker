@@ -2,7 +2,7 @@
   {{card-list onCardSelected=(action 'sendCardChosen')}}
 
   <div class="column-right">
-    {{actions-panel}}
-    {{user-list class="user-list" users=model}}
+    {{actions-panel onLogout=(action 'logout') onReset=(action 'reset') onReveal=(action 'reveal')}}
+    {{user-list class="user-list" users=users round=round}}
   </div>
 </div>

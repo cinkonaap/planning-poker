@@ -1,5 +1,16 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const { computed, Component } = Ember;
+
+export default Component.extend({
   tagName: 'ul',
+
+  usersRound: computed('users.@each', 'round', function() {
+    return this.get('users').map(user => {
+      return {
+        name: user.name,
+        voted: this.get(`round.bets.${user.name}`),
+      }
+    });
+  }),
 });
