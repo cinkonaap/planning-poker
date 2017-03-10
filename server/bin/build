@@ -7,6 +7,6 @@ unzip master.zip
 echo "removing master.zip..."
 rm master.zip
 echo "entering unzipped project dir..."
-cd planning-poker-master
+cd planning-poker-master/server
 echo "installing npm packages..."
 npm i
