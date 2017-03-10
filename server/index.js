@@ -8,9 +8,12 @@ const round = {
   bets: {},
 };
 
-server.listen(3000);
-app.get('/', function (req, res) {
-  res.send('');
+const port = process.env.PORT || 7011;
+server.listen(port, () => {
+  console.log('server listentig on port' , port)
+});
+app.get('/hello', function (req, res) {
+  res.send('hello');
 });
 
 function getUnrevealedBets(bets) {
@@ -40,6 +43,7 @@ io.on('connection', function (socket) {
         name: round.name,
         bets: getUnrevealedBets(round.bets),
       },
+      betSelected: round.bets[socketUser.name],
     });
   });
 

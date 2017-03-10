@@ -14,5 +14,5 @@ export default Route.extend({
         this.transitionTo('login');
       }
     }
-  }
+  },
 });

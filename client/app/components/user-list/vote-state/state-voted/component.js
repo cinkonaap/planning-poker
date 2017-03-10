@@ -1,6 +1,17 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const { Component, computed } = Ember;
+
+export default Component.extend({
   tagName: 'span',
   classNames: ['vote-state'],
+
+  votedOutput: computed('voted', function() {
+    const voted = this.get('voted')
+    if(voted === true){
+      return '+';
+    } else if(voted){ // is number revealed
+      return voted;
+    }
+  }),
 });

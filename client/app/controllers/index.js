@@ -14,6 +14,7 @@ export default Controller.extend({
     this._super(...arguments);
     const socket = this.get('socket');
     socket.on('users-card-select', this._onUsersCardSelect.bind(this));
+    socket.on('round-reveal', this._onRoundReveal.bind(this));
   },
 
   actions: {
@@ -38,5 +39,8 @@ export default Controller.extend({
   },
   _onUsersCardSelect(name) {
     this.get('state').cardSelected(name);
+  },
+  _onRoundReveal(round) {
+    this.get('state').roundRevealed(round);
   },
 });

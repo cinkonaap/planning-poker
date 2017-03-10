@@ -1,12 +1,10 @@
 export function initialize(appInstance) {
   const websocketService = appInstance.lookup('service:socket-io');
-  const socket = websocketService.socketFor('http://localhost:3000/');
+  // TODO move to conifg
+  const websocketServer = 'http://localhost:7011/';
+  const socket = websocketService.socketFor(websocketServer);
   socket.on('connect', function() {
     console.log('connected socket');
-  });
-
-  socket.on('news', function() {
-    console.log('got news', ...arguments);
   });
 
   appInstance.register('sockets:instance', socket, { instantiate: false });

@@ -16,6 +16,7 @@ export default Route.extend({
         resolve({
           users: state.users,
           round: state.round,
+          roundbets: state.roundbets,
         });
       });
     });

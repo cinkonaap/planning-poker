@@ -53,6 +53,12 @@ export default Service.extend({
     this.set('round', round);
   },
 
+  // TODO could probably be bets reveal, or we could just use a generic sync round
+  roundRevealed(round) {
+    Ember.set(this.get('round'), 'bets', round.bets);
+    this.get('roundbets').pushObject('hacky');
+  },
+
   resetRound() {
     Ember.set(this.get('round'), 'bets', {});
     console.log(this.get('roundbets').length);
