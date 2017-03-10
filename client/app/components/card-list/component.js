@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Component } = Ember;
+const { Component, computed, observer, inject: { service } } = Ember;
 
 const cards = [
   {
@@ -30,14 +30,23 @@ const cards = [
 ];
 
 export default Component.extend({
-  cards: cards,
+  state: service(),
+
+  cards,
 
   cardSelected: null,
+
+  roundBets: computed.reads('state.roundbets'),
+
+  onReset: observer('roundBets.length', function() {
+    if (this.get('roundBets.length') === 0) {
+      this.set('cardSelected', null);
+    }
+  }),
 
   actions: {
     cardSelect(value) {
       this.set('cardSelected', value);
-
       this.get('onCardSelected')(value);
     },
   },

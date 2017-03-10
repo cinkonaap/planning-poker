@@ -1,10 +1,14 @@
+import Ember from 'ember';
+import config from 'hackaton-pp/config/environment';
+
+const { Logger } = Ember;
+const { APP: { socketioServer } } = config;
+
 export function initialize(appInstance) {
   const websocketService = appInstance.lookup('service:socket-io');
-  // TODO move to conifg
-  const websocketServer = 'http://localhost:7011/';
-  const socket = websocketService.socketFor(websocketServer);
+  const socket = websocketService.socketFor(socketioServer);
   socket.on('connect', function() {
-    console.log('connected socket');
+    Logger.log('connected socket');
   });
 
   appInstance.register('sockets:instance', socket, { instantiate: false });

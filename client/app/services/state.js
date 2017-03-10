@@ -61,7 +61,7 @@ export default Service.extend({
 
   resetRound() {
     Ember.set(this.get('round'), 'bets', {});
-    console.log(this.get('roundbets').length);
+    console.log(this.get('roundbets.length'));
     this.get('roundbets').clear();
   },
 

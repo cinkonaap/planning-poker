@@ -22,7 +22,6 @@ export default Controller.extend({
   },
 
   onRoundReset() {
-    console.log('elo');
     this.get('state').resetRound();
   },
 });

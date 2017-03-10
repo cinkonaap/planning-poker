@@ -1,9 +1,9 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-  var ENV = {
+  const ENV = {
     modulePrefix: 'hackaton-pp',
-    environment: environment,
+    environment,
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {
@@ -13,14 +13,13 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
-      // Here you can pass flags/options to your application instance
-      // when it is created
-    }
+      socketioServer: 'http://localhost:7011',
+    },
   };
 
   if (environment === 'development') {
@@ -43,7 +42,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.APP.socketioServer = 'http://78.88.255.144:7011';
   }
 
   return ENV;
