@@ -1,18 +1,47 @@
 import Ember from 'ember';
 
-const { set, Service } = Ember;
+const { computed, set, Service } = Ember;
 
 export default Service.extend({
   users: [],
   currentUser: null,
 
+  hasBets: computed.bool('round.bets.length'),
+
   init() {
     this.set('round', Ember.Object.create({
-      bets: {},
+      bets: [
+        // {name: 'xx', bet: true}
+      ],
     }));
   },
 
-  roundbets: [],
+  // changes a format of bets from {} to []
+  setRound(round) {
+    const bets = round.bets;
+    round.bets = []; // set empty for now
+    this.set('round', round);
+    this._setRoundBets(bets);
+  },
+
+  // changes a format of bets from {} to []
+  _setRoundBets(bets) {
+    const usernames = Object.keys(bets);
+    usernames.forEach(username => {
+      this._addBet(username, bets[username].bet);
+    });
+  },
+
+  _addBet(name, bet) {
+    const bets = this.get('round.bets');
+    let user = this._findUser(name);
+    if (user) {
+      set(user, 'bet', bet);
+    } else {
+      user = bets.pushObject({ name, bet });
+    }
+    Ember.Object.prototype.incrementProperty.call(user, 'betCount');
+  },
 
   createUser(name) {
     if (this._hasUserWithName(name)) {
@@ -33,7 +62,7 @@ export default Service.extend({
   removeUser(name) {
     const users = this.get('users');
 
-    for (let i = 0 ; i < users.length ; i++) {
+    for (let i = 0; i < users.length; i++) {
       if (users[i].name === name) {
         users.removeAt(i);
         break;
@@ -45,24 +74,25 @@ export default Service.extend({
     this.set('currentUser', user);
   },
 
-  cardSelected(name) {
-    const round = this.get('round');
-    set(round, `bets.${name}`, { bet: true });
-    this.get('roundbets').pushObject(name);
-    console.log('cardSelected in state', round);
-    this.set('round', round);
+  _findUser(name) {
+    const bets = this.get('round.bets');
+    return bets && bets.findBy('name', name);
   },
 
-  // TODO could probably be bets reveal, or we could just use a generic sync round
+  cardSelected(name) {
+    const bets = this.get('round.bets');
+    this._addBet(name, true);
+    console.log('cardSelected', name);
+    console.log('bets', bets);
+  },
+
   roundRevealed(round) {
-    Ember.set(this.get('round'), 'bets', round.bets);
-    this.get('roundbets').pushObject('hacky');
+    this._setRoundBets(round.bets);
   },
 
   resetRound() {
-    Ember.set(this.get('round'), 'bets', {});
-    console.log(this.get('roundbets.length'));
-    this.get('roundbets').clear();
+    console.log('hhh');
+    this.set('round.bets', []);
   },
 
   _hasUserWithName(name) {

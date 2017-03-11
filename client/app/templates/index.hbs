@@ -1,8 +1,8 @@
 <div class="index-page">
-  {{card-list onCardSelected=(action 'sendCardChosen')}}
+  {{card-list onCardSelected=(action 'sendCardChosen') hasBets=state.hasBets}}
 
   <div class="column-right">
     {{actions-panel onLogout=(action 'logout') onReset=(action 'reset') onReveal=(action 'reveal')}}
-    {{user-list class="user-list" users=users round=round roundbets=roundbets}}
+    {{user-list class="user-list" users=users round=round}}
   </div>
 </div>

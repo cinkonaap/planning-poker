@@ -25,6 +25,15 @@ function getUnrevealedBets(bets) {
   }, {});
 }
 
+// TODO probably would be better if was immutable
+function revealCurrent(bets, currentUserName) {
+  const currentUserBetInfo = round.bets[currentUserName];
+  if(currentUserBetInfo) {
+    bets[currentUserName].bet = currentUserBetInfo.bet;
+  }
+  return bets;
+}
+
 io.on('connection', function (socket) {
   let socketUser = null;
 
@@ -37,13 +46,14 @@ io.on('connection', function (socket) {
   });
 
   socket.on('users-get', function(callback) {
+    const unrevealed = getUnrevealedBets(round.bets);
+    const revealedCurrentOnly = revealCurrent(unrevealed, socketUser.name);
     callback({
       users,
       round: {
         name: round.name,
-        bets: getUnrevealedBets(round.bets),
+        bets: revealedCurrentOnly,
       },
-      betSelected: round.bets[socketUser.name],
     });
   });
 

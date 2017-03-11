@@ -36,13 +36,20 @@ export default Component.extend({
 
   cardSelected: null,
 
-  roundBets: computed.reads('state.roundbets'),
-
-  onReset: observer('roundBets.length', function() {
-    if (this.get('roundBets.length') === 0) {
+  onReset: observer('hasBets', function() {
+    if (!this.get('hasBets')) {
       this.set('cardSelected', null);
     }
   }),
+
+  init() {
+    this._super(...arguments);
+    const name = this.get('state.currentUser.name');
+    const currentUserFromBets = this.get('state')._findUser(name);
+    if(currentUserFromBets) {
+      this.set('cardSelected', currentUserFromBets.bet);
+    }
+  },
 
   actions: {
     cardSelect(value) {

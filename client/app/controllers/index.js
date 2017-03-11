@@ -1,14 +1,12 @@
 import Ember from 'ember';
 
-const { Controller, computed, observer, inject: { service } } = Ember;
+const { Controller, computed, inject: { service } } = Ember;
 
 export default Controller.extend({
   state: service(),
   hash: computed.alias('model'),
   users: computed.alias('hash.users'),
   round: computed.alias('hash.round'),
-
-  roundbets: computed.alias('hash.roundbets'),
 
   init() {
     this._super(...arguments);
@@ -35,7 +33,7 @@ export default Controller.extend({
 
     reveal() {
       this.get('socket').emit('round-reveal');
-    }
+    },
   },
   _onUsersCardSelect(name) {
     this.get('state').cardSelected(name);

@@ -16,3 +16,7 @@ img {
 
 .vote-state {
 }
+
+&.just-voted {
+  background: red;
+}

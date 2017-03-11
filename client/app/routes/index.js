@@ -11,12 +11,11 @@ export default Route.extend({
         const { users, round } = hash;
         const state = this.get('state');
         users.forEach(user => state.createUser(user.name));
-        state.set('round', round);
-        state.get('roundbets').pushObject('hack');
+        state.setRound(round);
+
         resolve({
           users: state.users,
           round: state.round,
-          roundbets: state.roundbets,
         });
       });
     });
