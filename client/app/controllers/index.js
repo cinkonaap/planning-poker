@@ -31,6 +31,10 @@ export default Controller.extend({
       this.get('socket').emit('round-new');
     },
 
+    kick(name) {
+      this.get('socket').emit('kick', name);
+    },
+
     reveal() {
       this.get('socket').emit('round-reveal');
     },
