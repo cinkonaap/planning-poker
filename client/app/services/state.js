@@ -57,6 +57,7 @@ export default Service.extend({
     const userName = this.get('currentUser').name;
     this.removeUser(userName);
     this.set('currentUser', null);
+    localStorage.removeItem('userName');
   },
 
   removeUser(name) {

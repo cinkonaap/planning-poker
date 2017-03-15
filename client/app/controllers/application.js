@@ -18,7 +18,15 @@ export default Controller.extend({
 
   onUserDisconnect(user) {
     console.log('user wants to disconnect', user);
-    this.get('state').removeUser(user.name);
+    const state = this.get('state');
+    const currentUserName = state.get('currentUser.name');
+    debugger;
+    if (user.name === currentUserName) {
+      state.logoutUser();
+      this.transitionToRoute('login');
+    } else {
+      state.removeUser(user.name);
+    }
   },
 
   onRoundReset() {

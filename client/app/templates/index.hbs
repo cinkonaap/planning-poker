@@ -3,6 +3,6 @@
 
   <div class="column-right">
     {{actions-panel onLogout=(action 'logout') onReset=(action 'reset') onReveal=(action 'reveal')}}
-    {{user-list class="user-list" users=users round=round}}
+    {{user-list class="user-list" users=users round=round kick=(action 'kick')}}
   </div>
 </div>

@@ -22,13 +22,15 @@ export default Controller.extend({
     },
 
     logout() {
-      localStorage.removeItem('userName');
       this.get('socket').emit('manual-disconnect');
-      this.transitionToRoute('login');
     },
 
     reset() {
       this.get('socket').emit('round-new');
+    },
+
+    kick(name) {
+      this.get('socket').emit('kick', name);
     },
 
     reveal() {
