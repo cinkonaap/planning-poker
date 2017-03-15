@@ -22,9 +22,7 @@ export default Controller.extend({
     },
 
     logout() {
-      localStorage.removeItem('userName');
       this.get('socket').emit('manual-disconnect');
-      this.transitionToRoute('login');
     },
 
     reset() {

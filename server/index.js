@@ -8,6 +8,8 @@ const round = {
   bets: {},
 };
 
+// setInterval(console.log.bind(console, 'users', users), 10000);
+
 const port = process.env.PORT || 7011;
 server.listen(port, () => {
   console.log('server listentig on port' , port)
@@ -103,7 +105,7 @@ io.on('connection', function (socket) {
 
   function _spliceUser(user) {
     console.log('users before splice', users);
-    users.splice(users.indexOf(socketUser), 1);
+    users.splice(users.indexOf(user), 1);
     console.log('users after splice', users);
   }
 });
