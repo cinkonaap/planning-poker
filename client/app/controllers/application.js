@@ -24,14 +24,14 @@ export default Controller.extend({
   },
 
   // TODO: move this to single responsibility objects
-  onUserDisconnect(userData) {
-    const currentUserName = this.get('usersState.currentUser.name');
+  onUserDisconnect({ id }) {
+    const currentUserId = this.get('usersState.currentUserId');
 
-    if (userData.name === currentUserName) {
-      this.get('usersState').setCurrentUser(null);
+    if (id === currentUserId) {
+      this.get('usersState').setCurrentUserId(null);
       this.transitionToRoute('login');
     }
 
-    //this.get('usersState').removeUser(user.name);
+    this.get('usersState').removeById(id);
   },
 });

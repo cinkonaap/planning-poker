@@ -2,38 +2,36 @@ const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-const users = [];
-
 const port = process.env.PORT || 7011;
 server.listen(port, () => {
   console.log('server listentig on port' , port)
 });
 
+function socketUser(socket) {
+  return { id: socket.id, name: socket.name };
+}
+
 io.on('connection', function (socket) {
-  let socketUser = null;
-
   socket.on('users:login', function(name, callback) {
-    const otherUsers = users.slice();
+    socket.name = name;
 
-    const socketUser = { name, id: socket.id };
-    users.push(socketUser);
+    const connected = Object.values(io.sockets.connected);
+    const users = connected.map(socketUser);
 
     callback({
-      me: socketUser,
-      users: otherUsers,
+      socketId: socket.id,
+      users,
     });
 
-    socket.broadcast.emit('users:connect', socketUser);
+    socket.broadcast.emit('users:connect', socketUser(socket));
   });
 
   socket.on('disconnect', disconnect);
   socket.on('users:disconnect', disconnect);
 
   function disconnect() {
-    if (socketUser) {
-      users.splice(users.indexOf(socketUser), 1);
-      io.emit('users:disconnect', socketUser);
-      socketUser = null;
+    if (socket.name) {
+      io.emit('users:disconnect', socketUser(socket));
     }
   }
 });

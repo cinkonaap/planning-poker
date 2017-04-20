@@ -1,35 +1,35 @@
 import Ember from 'ember';
 
-const { Service, isNone } = Ember;
+const { Service, computed, isNone } = Ember;
 
 export default Service.extend({
   users: [],
-  currentUser: null,
+  currentUserId: null,
 
-  addUser(user) {
-    if (this._hasUserWithName(name)) {
-      return null;
-    } else {
-      this.get('users').addObject(user);
-      return user;
-    }
+  currentUser: computed('currentUserId', function() {
+    return this.findById(this.get('currentUserId'));
+  }),
+
+  findById(id) {
+    return this.get('users').findBy('id', id);
   },
 
-  removeUser(user) {
+  addUser(user) {
+    this.get('users').addObject(user);
+  },
+
+  removeById(id) {
+    const user = this.findById(id);
     this.get('users').removeObject(user);
   },
 
-  setCurrentUser(user) {
-    if (isNone(user)) {
-      this.set('currentUser', null);
+  setCurrentUserId(socketId) {
+    if (isNone(socketId)) {
+      this.set('currentUserId', null);
       localStorage.removeItem('userName');
     } else {
-      this.set('currentUser', user);
-      localStorage.setItem('userName', user.name);
+      this.set('currentUserId', socketId);
+      localStorage.setItem('userName', this.get('currentUser.name'));
     }
-  },
-
-  _hasUserWithName(name) {
-    return this.get('users').any(user => user.name === name);
   },
 });

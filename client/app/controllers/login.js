@@ -12,15 +12,13 @@ export default Controller.extend({
     submit(name) {
       const socket = this.get('websocket.instance');
 
-      socket.emit('users:login', name, (payload) => {
-        console.log("SUCC", payload);
-        payload.users.forEach(userData => {
+      socket.emit('users:login', name, ({ socketId, users }) => {
+        console.log("SUCC", socketId, users);
+        users.forEach(userData => {
           this.get('usersState').addUser(createUser(userData));
         });
 
-        const me = createUser(payload.me);
-        this.get('usersState').addUser(me);
-        this.get('usersState').setCurrentUser(me);
+        this.get('usersState').setCurrentUserId(socketId);
 
         this.transitionToRoute('index');
       });
