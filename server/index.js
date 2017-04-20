@@ -11,12 +11,25 @@ function socketUser(socket) {
   return { id: socket.id, name: socket.name };
 }
 
+function isLoggedIn(socket) {
+  return !!socket.name;
+}
+
+function logIn(socket, name) {
+  socket.name = name;
+}
+
+function logOut(socket) {
+  delete socket.name;
+}
+
 io.on('connection', function (socket) {
   socket.on('users:login', function(name, callback) {
-    socket.name = name;
+    logIn(socket, name);
 
     const connected = Object.values(io.sockets.connected);
-    const users = connected.map(socketUser);
+
+    const users = connected.filter(isLoggedIn).map(socketUser);
 
     callback({
       socketId: socket.id,
@@ -26,12 +39,24 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('users:connect', socketUser(socket));
   });
 
-  socket.on('disconnect', disconnect);
+  socket.on('disconnect', disconnect.bind(null, socket));
   socket.on('users:disconnect', disconnect);
+  socket.on('kick', kick);
 
-  function disconnect() {
-    if (socket.name) {
-      io.emit('users:disconnect', socketUser(socket));
+  function disconnect(disconnectedSocket) {
+    debugger;
+    if (isLoggedIn(disconnectedSocket)) {
+      io.emit('users:disconnect', socketUser(disconnectedSocket));
+      logOut(disconnectedSocket);
+    }
+  }
+
+  function kick(id) {
+    const kickedSocket = io.sockets.connected[id];
+    if (kickedSocket) {
+      disconnect(kickedSocket);
+    } else {
+      console.warn('trying to kick a socket that does not exist');
     }
   }
 });

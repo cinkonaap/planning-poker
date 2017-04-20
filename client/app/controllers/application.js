@@ -11,7 +11,6 @@ export default Controller.extend({
     this._super(...arguments);
 
     const websocketInstance = this.get('websocket.instance');
-
     websocketInstance.on('users:connect', this.onUserCreated.bind(this));
     websocketInstance.on('users:disconnect', this.onUserDisconnect.bind(this));
   },

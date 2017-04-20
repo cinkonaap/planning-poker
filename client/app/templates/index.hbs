@@ -1,5 +1,15 @@
 <ul>
   {{#each users as |user|}}
-    <li class={{if (eq user.id usersState.currentUserId) "current-user"}}>{{user.name}}</li>
+    <li class={{if (eq user.id usersState.currentUserId) "current-user"}}>
+      {{user.name}}
+      {{#bs-button
+        class="reset-btn"
+        click=(action 'kick' user.id)
+        type="primary"
+        icon="glyphicon glyphicon-remove"
+      }}
+        kick
+      {{/bs-button}}
+    </li>
   {{/each}}
 </ul>

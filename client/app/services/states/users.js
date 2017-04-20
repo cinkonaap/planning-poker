@@ -15,7 +15,9 @@ export default Service.extend({
   },
 
   addUser(user) {
-    this.get('users').addObject(user);
+    if (!this.findById(user.id)) {
+      this.get('users').addObject(user);
+    }
   },
 
   removeById(id) {
