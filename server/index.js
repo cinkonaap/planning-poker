@@ -12,10 +12,10 @@ server.listen(port, () => {
 io.on('connection', function (socket) {
   let socketUser = null;
 
-  socket.on('users:login', function(data, callback) {
+  socket.on('users:login', function(name, callback) {
     const otherUsers = users.slice();
 
-    const socketUser = { name: data, id: socket.id };
+    const socketUser = { name, id: socket.id };
     users.push(socketUser);
 
     callback({

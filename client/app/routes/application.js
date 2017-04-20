@@ -9,7 +9,13 @@ export default Route.extend({
     const currentUser = this.get('usersState.currentUser');
 
     if (isNone(currentUser)) {
-      this.transitionTo('login');
+      const userName = localStorage.getItem('userName');
+
+      if (userName) {
+        this.controllerFor('login').send('submit', userName);
+      } else {
+        this.transitionTo('login');
+      }
     }
   },
 });

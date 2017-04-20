@@ -25,6 +25,7 @@ export default Service.extend({
       localStorage.removeItem('userName');
     } else {
       this.set('currentUser', user);
+      localStorage.setItem('userName', user.name);
     }
   },
 
