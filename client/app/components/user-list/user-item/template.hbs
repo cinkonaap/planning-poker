@@ -1,6 +1,0 @@
-<img src="/images/avatar.png" />
-<span class="name">{{userRound.name}}</span>
-{{#if voteStateComponent}}
-  {{component voteStateComponent voted=userRound.voted}}
-{{/if}}
-{{#bs-button class="reset-btn" click=(action kick userRound.name) type="primary" icon="glyphicon glyphicon-remove"}}kick{{/bs-button}}

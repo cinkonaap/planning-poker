@@ -1,35 +1,37 @@
 import Ember from 'ember';
+import { createUser } from 'hackaton-pp/models/user';
 
-const { Controller, inject: { service} } = Ember;
+const { Controller, inject: { service } } = Ember;
 
 export default Controller.extend({
-  state: service(),
+  usersState: service('states.users'),
+  websocket: service('gateways.websocket'),
 
   init() {
-    const socket = this.get('socket');
-    socket.on('users-new', this.onUserCreated.bind(this));
-    socket.on('users-disconnect', this.onUserDisconnect.bind(this));
-    socket.on('round-new', this.onRoundReset.bind(this));
+    this._super(...arguments);
+
+    const websocketInstance = this.get('websocket.instance');
+
+    websocketInstance.on('users:connect', this.onUserCreated.bind(this));
+    websocketInstance.on('users:disconnect', this.onUserDisconnect.bind(this));
   },
 
-  onUserCreated(user) {
-    this.get('state').createUser(user.name);
+
+  // TODO: move this to single responsibility objects
+  onUserCreated(userData) {
+    const user = createUser(userData);
+    this.get('usersState').addUser(user);
   },
 
-  onUserDisconnect(user) {
-    console.log('user wants to disconnect', user);
-    const state = this.get('state');
-    const currentUserName = state.get('currentUser.name');
-    debugger;
-    if (user.name === currentUserName) {
-      state.logoutUser();
+  // TODO: move this to single responsibility objects
+  onUserDisconnect(userData) {
+    const currentUserName = this.get('usersState.currentUser.name');
+
+    if (userData.name === currentUserName) {
+      this.get('usersState').setCurrentUser(null);
       this.transitionToRoute('login');
-    } else {
-      state.removeUser(user.name);
     }
-  },
 
-  onRoundReset() {
-    this.get('state').resetRound();
+    //this.get('usersState').removeUser(user.name);
   },
 });

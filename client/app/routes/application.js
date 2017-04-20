@@ -1,18 +1,15 @@
 import Ember from 'ember';
 
-const { inject: { service }, Route } = Ember;
+const { Route, inject: { service }, isNone } = Ember;
 
 export default Route.extend({
-  state: service(),
+  usersState: service('states.users'),
 
   beforeModel() {
-    if (!this.get('state').currentUser) {
-      const userName = localStorage.getItem('userName');
-      if (userName) {
-        this.controllerFor('login').send('submitForm', userName);
-      } else {
-        this.transitionTo('login');
-      }
+    const currentUser = this.get('usersState.currentUser');
+
+    if (isNone(currentUser)) {
+      this.transitionTo('login');
     }
   },
 });

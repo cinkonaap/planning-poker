@@ -1,8 +1,0 @@
-<div class="cards">
-{{#each cards as |card|}}
-  {{card-list/card
-    value=card.action
-    click=(action "cardSelect" card.action)
-    selected=(eq card.action cardSelected)}}
-{{/each}}
-</div>

@@ -1,18 +1,29 @@
 import Ember from 'ember';
+import { createUser } from 'hackaton-pp/models/user';
 
-const { Controller, getOwner, inject: { service } } = Ember;
+const { Controller, inject: { service } } = Ember;
 
 export default Controller.extend({
-  state: service(),
+  usersState: service('states.users'),
+  websocket: service('gateways.websocket'),
+
   actions: {
-    submitForm(name) {
-      const socket = this.get('socket');
-      console.log('emiting', name);
-      socket.emit('users-new', name);
-      const user = this.get('state').createUser(name);
-      this.get('state').setCurrentUser(user);
-      this.transitionToRoute('index');
-      localStorage.setItem('userName', name);
+    // TODO: move this logic to single responsibility object
+    submit(name) {
+      const socket = this.get('websocket.instance');
+
+      socket.emit('users:login', name, (payload) => {
+        console.log("SUCC", payload);
+        payload.users.forEach(userData => {
+          this.get('usersState').addUser(createUser(userData));
+        });
+
+        const me = createUser(payload.me);
+        this.get('usersState').addUser(me);
+        this.get('usersState').setCurrentUser(me);
+
+        this.transitionToRoute('index');
+      });
     },
   },
 });
