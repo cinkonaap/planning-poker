@@ -1,0 +1,13 @@
+{{#each users as |user|}}
+  <li class={{if (eq user.id currentUserId) "current-user"}}>
+    {{user.name}}
+    {{#bs-button
+      class="reset-btn"
+      click=(action kick user.id)
+      type="primary"
+      icon="glyphicon glyphicon-remove"
+    }}
+      kick
+    {{/bs-button}}
+  </li>
+{{/each}}

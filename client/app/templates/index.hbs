@@ -1,15 +1,9 @@
-<ul>
-  {{#each users as |user|}}
-    <li class={{if (eq user.id usersState.currentUserId) "current-user"}}>
-      {{user.name}}
-      {{#bs-button
-        class="reset-btn"
-        click=(action 'kick' user.id)
-        type="primary"
-        icon="glyphicon glyphicon-remove"
-      }}
-        kick
-      {{/bs-button}}
-    </li>
-  {{/each}}
-</ul>
+{{!-- {{card-list selectCard=(action 'sendCardChosen')}} --}}
+
+<div class="column-right">
+  {{!-- {{actions-panel onLogout=(action 'logout') onReset=(action 'reset') onReveal=(action 'reveal')}} --}}
+  {{user-list
+    users=users
+    kick=(action 'kick')
+    currentUserId=usersState.currentUserId}}
+</div>
