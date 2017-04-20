@@ -1,0 +1,10 @@
+{{#each cards as |card|}}
+  {{card-list/card
+    bet=card.bet
+    click=(action (queue
+      (action sendBet card.bet)
+      (action (mut cardSelected) card.bet)
+    ))
+    class=(if (eq card.bet cardSelected) 'selected')
+  }}
+{{/each}}
