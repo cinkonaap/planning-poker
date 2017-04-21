@@ -47,6 +47,6 @@ module.exports = function(io) {
     });
 
     socket.on('disconnect', disconnect.bind(null, io, socket));
-    socket.on('kick', kick.bind(null, io));
+    socket.on('users:kick', kick.bind(null, io));
   }
 }
